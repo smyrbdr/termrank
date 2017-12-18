@@ -1,0 +1,31 @@
+//Retrieves the magma output, set the generating polynomial p and base polynomial f
+//Set the appropriate output file name
+//Put the file name in the term rank distance computer python script
+
+K<a>:=GF(2^2);
+F<x>:= PolynomialRing(K);
+p:= x^5 + a^2*x^4 + x^3 + x^2 + a*x + 1;
+f:= x^11-1;
+m:=Degree(p);
+n:=Degree(f);
+T:= CompanionMatrix(f);
+V:= KMatrixSpace(K,m,n);
+M:=MatrixRing(K,n);
+
+Z1 := [0: x in [1..m*(n-m)]];
+P:= HorizontalJoin(CompanionMatrix(p),Matrix(K, m, n-m, Z1)); P;
+
+B := { V!P*T^i : i in [0..n-1]};
+S:=sub< V | B >;
+S;
+SetOutputFile("smyr5x11.txt");
+for s in S do
+for i in [1..m] do
+for j in [1..n] do
+print s[i,j];
+end for;
+print "$";
+end for;
+print "@";
+end for;
+UnsetOutputFile();
